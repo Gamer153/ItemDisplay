@@ -10,10 +10,11 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.Item
 import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
+import org.bukkit.util.Vector
 
 
 fun newItemDisplay(item: ItemStack, location: Location): ItemDisplay {
-    val itemEntity = location.world.spawnEntity(location.add(0.0, -1.0, 0.0), EntityType.DROPPED_ITEM) as Item
+    val itemEntity = location.world.spawnEntity(location, EntityType.DROPPED_ITEM) as Item
     itemEntity.setWillAge(false)
     itemEntity.setCanMobPickup(false)
     itemEntity.setCanPlayerPickup(false)
@@ -22,10 +23,16 @@ fun newItemDisplay(item: ItemStack, location: Location): ItemDisplay {
     itemEntity.itemStack = item
     itemEntity.setGravity(false)
     itemEntity.isGlowing = true
-    val glassEntity = location.world.spawnFallingBlock(location.add(0.0, 1.0, 0.0), Material.GLASS.createBlockData())
+    val glassEntity = location.world.spawnFallingBlock(location, Material.GLASS.createBlockData())
     glassEntity.setGravity(false)
     glassEntity.setHurtEntities(false)
+    glassEntity.shouldAutoExpire(false)
     glassEntity.dropItem = false
+
+    glassEntity.velocity = Vector()
+    itemEntity.velocity = Vector()
+    itemEntity.teleport(location.add(.0, .5, .0))
+
     itemEntity.setMetadata("linked_glass", FixedMetadataValue(ItemDisplayPlugin.instance, glassEntity.uniqueId.toString()))
     glassEntity.setMetadata("linked_item", FixedMetadataValue(ItemDisplayPlugin.instance, itemEntity.uniqueId.toString()))
     return ItemDisplay(itemEntity.uniqueId, glassEntity.uniqueId, item, SLocation(location))

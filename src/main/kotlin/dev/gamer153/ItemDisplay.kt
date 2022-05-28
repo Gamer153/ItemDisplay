@@ -38,4 +38,5 @@ class ItemStackSerializer: KSerializer<ItemStack> {
 data class SLocation(val x: Double, val y: Double, val z: Double, val world: String) {
     constructor(location: Location) : this(location.x, location.y, location.z, location.world.name)
     fun location() = Location(Bukkit.getWorld(world), x, y, z)
+    override fun toString() = "[$x, $y, $z in $world]"
 }
