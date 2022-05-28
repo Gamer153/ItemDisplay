@@ -1,4 +1,32 @@
 name: ItemDisplay
 version: 0.0.1
 api-version: 1.18
-main: dev.gamer153.ItemDisplay
+main: dev.gamer153.ItemDisplayPlugin
+commands:
+  itemdisplay:
+    aliases:
+      - id
+      - idisplay
+    permission: itemdisplay.command
+    usage: /itemdisplay [...]
+    description: Create and manage item displays
+
+permissions:
+  itemdisplay.command:
+    default: op
+  itemdisplay.admin:
+    default: op
+  itemdisplay.create:
+    default: op
+  itemdisplay.edit:
+    default: op
+  itemdisplay.edit.by-click:
+    default: op
+  itemdisplay.remove:
+    default: op
+  itemdisplay.list:
+    default: op
+
+libraries:
+  - org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3
+  - org.jetbrains.kotlin:kotlin-stdlib:1.7.0-RC

@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.0-RC"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.0-RC"
 }
 
 group = "dev.gamer153"
@@ -13,7 +14,8 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("jvm"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
     compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
 }
 
