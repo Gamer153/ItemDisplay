@@ -38,7 +38,7 @@ object ItemDisplayCommand : TabCompleter, CommandExecutor {
                     val itemDisplay = newItemDisplay(item, sender.location.toBlockLocation().add(0.5, .0, 0.5))
                     itemDisplays += itemDisplay
                     ItemDisplayPlugin.saveItemDisplays()
-                    sender.sendMessage("Created new item display.")
+                    sender.sendMessage("Created new item display.".comp(NamedTextColor.GREEN))
                 }
                 "remove" -> {
                     if (!(sender can remove)) return sender.error("You don't have permission.")
@@ -59,7 +59,7 @@ object ItemDisplayCommand : TabCompleter, CommandExecutor {
                     } catch (_: Throwable) {
                         return sender.error("Invalid UUID!")
                     }
-                    sender.sendMessage("Removed item display.")
+                    sender.sendMessage("Removed item display.".comp(NamedTextColor.DARK_GREEN))
                 }
                 "list" -> {
                     if (!(sender can list)) return sender.error("You don't have permission.")
@@ -84,6 +84,14 @@ object ItemDisplayCommand : TabCompleter, CommandExecutor {
                         itemDisplays.find { it.itemEntity == UUID.fromString(args[1]) }
                             ?.let { sender.teleport(it.location.location()) }
                     } catch (_: Throwable) {}
+                }
+                "save" -> {
+                    ItemDisplayPlugin.saveItemDisplays()
+                    sender.sendMessage("Saved item-displays.json.".comp(NamedTextColor.GREEN))
+                }
+                "reload" -> {
+                    ItemDisplayPlugin.reloadItemDisplays()
+                    sender.sendMessage("Reloaded item displays.".comp(NamedTextColor.GREEN))
                 }
             }
         } else sender.error("Usage: /itemdisplay <action> [args]")

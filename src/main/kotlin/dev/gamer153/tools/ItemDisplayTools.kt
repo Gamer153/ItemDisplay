@@ -23,6 +23,7 @@ fun newItemDisplay(item: ItemStack, location: Location): ItemDisplay {
     itemEntity.itemStack = item
     itemEntity.setGravity(false)
     itemEntity.isGlowing = true
+    itemEntity.isUnlimitedLifetime = true
     val glassEntity = location.world.spawnFallingBlock(location, Material.GLASS.createBlockData())
     glassEntity.setGravity(false)
     glassEntity.setHurtEntities(false)
@@ -31,7 +32,7 @@ fun newItemDisplay(item: ItemStack, location: Location): ItemDisplay {
 
     glassEntity.velocity = Vector()
     itemEntity.velocity = Vector()
-    itemEntity.teleport(location.add(.0, .5, .0))
+    itemEntity.teleport(location.clone().add(.0, .5, .0))
 
     itemEntity.setMetadata("linked_glass", FixedMetadataValue(ItemDisplayPlugin.instance, glassEntity.uniqueId.toString()))
     glassEntity.setMetadata("linked_item", FixedMetadataValue(ItemDisplayPlugin.instance, itemEntity.uniqueId.toString()))

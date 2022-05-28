@@ -1,6 +1,8 @@
 package dev.gamer153
 
 import dev.gamer153.commands.ItemDisplayCommand
+import dev.gamer153.tools.newItemDisplay
+import dev.gamer153.tools.removeItemDisplay
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -31,6 +33,14 @@ class ItemDisplayPlugin : JavaPlugin() {
         fun loadItemDisplays() {
             itemDisplays.clear()
             itemDisplays += Json.decodeFromString<List<ItemDisplay>>(Files.readString(itemDisplayFile.toPath()))
+        }
+        fun reloadItemDisplays() {
+            itemDisplays.forEach { removeItemDisplay(it) }
+            loadItemDisplays()
+            val respawned = itemDisplays.map { newItemDisplay(it.item, it.location.location()) }
+            itemDisplays.clear()
+            itemDisplays += respawned
+            saveItemDisplays() // save again, because respawning changes all uuids(!)
         }
     }
     override fun onEnable() {
